@@ -7,8 +7,14 @@ This is a build pack bundling PHP and Nginx for Heroku apps.
 - Dependency management handled by [Composer][ch].
 - [PHP Info][phpinfo].
 
+It is based on the [custom buildpack][heroku-buildpack-php-tyler] by @iphoting and adjusted to work with the Silex micro-framework with the following changes:
+
+* URLs are rewritten to remove `index.php`. eg `example.herokuapp.com/index.php/contact` becomes `example.herokuapp.com/contact`
+* The public web directory is at `/app/web/` instead of `/app/`
+
 [phpinfo]: https://bp-php-t-phpinfo.herokuapp.com/
 [ch]: http://getcomposer.org/
+[heroku-buildpack-php-tyler]: https://github.com/Tylerprojects/heroku-buildpack-php-tyler
 
 Configuration
 -------------
@@ -115,12 +121,12 @@ Export your new relic license key as the `NEW_RELIC_LICENSE_KEY` env variable us
 ### Deploying
 To use this buildpack, on a new Heroku app:
 ````
-heroku create -s cedar -b git://github.com/iphoting/heroku-buildpack-php-tyler.git
+heroku create -s cedar -b git://github.com/archfizz/heroku-buildpack-php-nginx-silex.git
 ````
 
 On an existing app:
 ````
-heroku config:add BUILDPACK_URL=git://github.com/iphoting/heroku-buildpack-php-tyler.git
+heroku config:add BUILDPACK_URL=git://github.com/archfizz/heroku-buildpack-php-nginx-silex.git
 heroku config:add PATH="/app/vendor/bin:/app/local/bin:/app/vendor/nginx/sbin:/app/vendor/php/bin:/app/vendor/php/sbin:/usr/local/bin:/usr/bin:/bin"
 ````
 
@@ -146,7 +152,7 @@ Testing the Buildpack
 ---------------------
 Setup the test environment on Heroku as follows:
 ```
-$ cd heroku-buildpack-php-tyler/
+$ cd heroku-buildpack-nginx-silex/
 $ heroku create -s cedar -b git://github.com/ryanbrainard/heroku-buildpack-testrunner.git
 Creating deep-thought-1234... done, stack is cedar
 http://deep-thought-1234.herokuapp.com/ | git@heroku.com:deep-thought-1234.git
