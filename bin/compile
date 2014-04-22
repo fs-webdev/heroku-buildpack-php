@@ -106,8 +106,8 @@ fi
 
 mkdir -p ${BUILD_DIR}/vendor/apache
 echo "We just made a new dir - ${BUILD_DIR}/vendor/apache"
-tar xzf ${APACHE_FILE} -C ${BUILD_DIR}/vendor/apache
-echo "We just tar-ed Apache"
+tar xvf ${APACHE_FILE} -C ${BUILD_DIR}/vendor/apache
+echo "We just tar-ed Apache and changed to the new directory we just made"
 
 
 # libmcrypt
