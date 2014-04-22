@@ -105,7 +105,10 @@ else
 fi
 
 mkdir -p ${BUILD_DIR}/vendor/apache
+echo "We just made a new dir - ${BUILD_DIR}/vendor/apache"
 tar xzf ${APACHE_FILE} -C ${BUILD_DIR}/vendor/apache
+echo "We just tar-ed Apache"
+
 
 # libmcrypt
 echo "-----> Installing libmcrypt"
