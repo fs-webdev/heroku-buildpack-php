@@ -90,12 +90,12 @@ if [ -f "${APACHE_FILE}" ]
 then
     # check manifest
 #    if check_md5 "${APACHE_FILE}"
-    then
+#    then
         echo "Bundling Apache v${APACHE_VERSION}" | indent
         echo ${APACHE_URL} | indent
         download_url ${APACHE_URL}
-    else
-        echo "Using cached Apache v${APACHE_VERSION}" | indent
+#   else
+#      echo "Using cached Apache v${APACHE_VERSION}" | indent
 #   fi
 else
     # fetch
@@ -112,12 +112,12 @@ echo "-----> Installing libmcrypt"
 if [ -f "${MCRYPT_FILE}" ]
 then
 #    if check_md5 "${MCRYPT_FILE}"
-    then
+#    then
         echo "Bundling libmcrypt v${LIBMCRYPT_VERSION}" | indent
         echo ${MCRYPT_URL} | indent
         download_url ${MCRYPT_URL}
-    else
-        echo "Using cached libmcrypt v${LIBMCRYPT_VERSION}" | indent
+#    else
+#        echo "Using cached libmcrypt v${LIBMCRYPT_VERSION}" | indent
 #    fi
 else
     echo "Bundling libmcrypt v${LIBMCRYPT_VERSION}" | indent
@@ -132,12 +132,12 @@ echo "-----> Installing libmemcached"
 if [ -f "${MEMCACHED_FILE}" ]
 then
 #    if check_md5 "${MEMCACHED_FILE}"
-    then
+#    then
         echo "Bundling libmemcached v${LIBMEMCACHED_VERSION}" | indent
         echo ${MEMCACHED_URL} | indent
         download_url ${MEMCACHED_URL}
-    else
-        echo "Using cached libmemcached v${LIBMEMCACHED_VERSION}" | indent
+#    else
+#        echo "Using cached libmemcached v${LIBMEMCACHED_VERSION}" | indent
 #   fi
 else
     echo "Bundling libmemcached v${LIBMEMCACHED_VERSION}" | indent
@@ -152,12 +152,12 @@ echo "-----> Installing PHP"
 if [ -f "$PHP_FILE" ]
 then
 #    if check_md5 "${PHP_FILE}"
-    then
+#    then
         echo "Bundling PHP v${PHP_VERSION}" | indent
         echo ${PHP_URL} | indent
         download_url ${PHP_URL}
-    else
-        echo "Using cached PHP v${PHP_VERSION}" | indent
+#    else
+#        echo "Using cached PHP v${PHP_VERSION}" | indent
 #    fi
 else
     echo "Bundling PHP v${PHP_VERSION}" | indent
@@ -173,12 +173,12 @@ echo "-----> Installing newrelic"
 if [ -f "${NEWRELIC_FILE}" ]
 then
 #    if check_md5 "${NEWRELIC_FILE}"
-    then
+#    then
         echo "Bundling newrelic daemon v${NEWRELIC_VERSION}" | indent
         echo ${NEWRELIC_URL} | indent
         download_url ${NEWRELIC_URL}
-    else
-        echo "Using cached newrelic daemon v${NEWRELIC_VERSION}" | indent
+#    else
+#        echo "Using cached newrelic daemon v${NEWRELIC_VERSION}" | indent
 #    fi
 else
     echo "Bundling newrelic daemon v${NEWRELIC_VERSION}" | indent
