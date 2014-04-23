@@ -271,7 +271,7 @@ echo $CTEM
 echo " "
 
 cd ${BUILD_DIR}/vendor/apache/
-CTEM2='ls'
+CTEM2='ls .'
 echo $CTEM2
 
 cp $LP_DIR/conf/httpd.conf ${BUILD_DIR}/vendor/apache/conf/httpd.conf
