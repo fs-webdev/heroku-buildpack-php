@@ -31,7 +31,7 @@ S3_URL="http://s3.amazonaws.com/${S3_BUCKET}"
 
 SUBDIR="mpod-wp"
 MANIFEST_FILE="manifest.md5sum"
-APACHE_FILE="httpd-${APACHE_VERSION}.tar.gz"
+APACHE_FILE=apache-${APACHE_VERSION}.tar.gz"
 MCRYPT_FILE="libmcrypt-${LIBMCRYPT_VERSION}.tar.gz"
 MEMCACHED_FILE="libmemcached-${LIBMEMCACHED_VERSION}.tar.gz"
 PHP_FILE="php-${PHP_VERSION}.tar.gz"
