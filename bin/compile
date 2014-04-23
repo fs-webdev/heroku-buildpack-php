@@ -31,6 +31,7 @@ S3_URL="http://s3.amazonaws.com/${S3_BUCKET}"
 
 SUBDIR="mpod-wp"
 MANIFEST_FILE="manifest.md5sum"
+APR_FILE="libapr1_1.4.6-3+deb7u1_amd64.deb"
 APACHE_FILE="apache-${APACHE_VERSION}.tar.gz"
 MCRYPT_FILE="libmcrypt-${LIBMCRYPT_VERSION}.tar.gz"
 MEMCACHED_FILE="libmemcached-${LIBMEMCACHED_VERSION}.tar.gz"
@@ -38,6 +39,7 @@ PHP_FILE="php-${PHP_VERSION}.tar.gz"
 NEWRELIC_FILE="newrelic-${NEWRELIC_VERSION}-heroku.tar.gz"
 
 MANIFEST_URL="${S3_URL}/${SUBDIR}/${MANIFEST_FILE}"
+APR_URL="${S3_URL}/${SUBDIR}/${APR_FILE}"
 APACHE_URL="${S3_URL}/${SUBDIR}/${APACHE_FILE}"
 MCRYPT_URL="${S3_URL}/${SUBDIR}/${MCRYPT_FILE}"
 MEMCACHED_URL="${S3_URL}/${SUBDIR}/${MEMCACHED_FILE}"
@@ -111,7 +113,16 @@ download_url ${MANIFEST_URL}
 
 
 
-#  ------------------------------------------------------------   Apache  ------------------------------------------------------------
+#  ------------------------------------------------------  Missing Linux package  -------------------------------------------------------
+# Heroku installs of Ubuntu need the APR (Apache Portable Runtime) package installed in order to run Apache
+echo -e "\n\n-----> Fetching Ubuntu Linux Packages"
+echo ${APR_URL} | indent
+download_url ${APR_URL}
+
+dpkg -i ${APR_FILE}
+
+
+#  -------------------------------------------------------------   Apache  --------------------------------------------------------------
 echo -e "\n\n-----> Installing Apache"
 echo "pwd = $(pwd)"
 if [ -f "${APACHE_FILE}" ]
