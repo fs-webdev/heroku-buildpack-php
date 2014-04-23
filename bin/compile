@@ -113,7 +113,7 @@ download_url ${MANIFEST_URL}
 
 #  ------------------------------------------------------------   Apache  ------------------------------------------------------------
 echo " "
-echo "\n\n\n\n-----> Installing Apache"
+echo -e "\n\\n\n\\n-----> Installing Apache"
 echo "pwd = $(pwd)"
 if [ -f "${APACHE_FILE}" ]
 then
