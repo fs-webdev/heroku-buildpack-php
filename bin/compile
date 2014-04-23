@@ -202,8 +202,8 @@ else
     download_url ${PHP_URL}
 fi
 
-mkdir -p ${BUILD_DIR}/vendor/php
-tar xzf ${PHP_FILE} -C ${BUILD_DIR}/vendor/php
+mkdir -p ${BUILD_DIR}/vendor
+tar xzf ${PHP_FILE} -C ${BUILD_DIR}/vendor
 
 
 
@@ -342,7 +342,7 @@ if [ "\${NEW_RELIC_LICENSE_KEY}" ]; then
 fi
 
 # start php and apache
-/app/vendor/php/php/bin/php
+/app/vendor/php/bin/php
 /app/vendor/apache/bin/httpd
 EOF
 
