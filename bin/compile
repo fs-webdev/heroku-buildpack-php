@@ -24,7 +24,7 @@ NEWRELIC_VERSION=2.9.5.78
 
 #
 # S3_URL="https://s3.amazonaws.com/${S3_BUCKET}"
-S3_URL="http://${S3_BUCKET}.s3.amazonaws.com/"
+S3_URL="http://${S3_BUCKET}.s3.amazonaws.com"
 
 MANIFEST_FILE="mpod-wp/manifest.md5sum"
 APACHE_FILE="mpod-wp/httpd-${APACHE_VERSION}.tar.gz"
