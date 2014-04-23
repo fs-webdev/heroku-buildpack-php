@@ -265,20 +265,6 @@ echo -e "\n\n-----> Copying config files"
 #cp ${BUILD_DIR}/vendor/php/php/fpm/status.html ${BUILD_DIR}/status.html
 cp $LP_DIR/conf/php.ini ${BUILD_DIR}/vendor/php/php.ini
 cp -a $LP_DIR/conf/etc.d ${BUILD_DIR}/vendor/php/
-
-CTEM=$(pwd)
-echo ${CTEM}
-echo " "
-
-cd ${BUILD_DIR}/vendor/
-CTEM2="`ls -al`"
-echo ${CTEM2}
-cd ${BUILD_DIR}/vendor/apache
-CTEM2="`ls -al`"
-echo ${CTEM2}
-
-
-
 cp $LP_DIR/conf/httpd.conf ${BUILD_DIR}/vendor/apache/conf/httpd.conf
 
 
