@@ -5,11 +5,6 @@ set -e
 set -o pipefail
 
 
-ENV_DIR=$3
-for KEY in S3_BUCKET; do
-  [ -f $ENV_DIR/$KEY ] && export "$KEY=$(cat $ENV_DIR/$KEY)"
-  [ -z "${!KEY}" ] && echo "$KEY must be set in the env" && exit 1
-done
 
 
 # START CONFIG
@@ -22,9 +17,17 @@ NEWRELIC_VERSION=2.9.5.78
 
 
 
-#
- S3_URL="http://s3.amazonaws.com/${S3_BUCKET}"
-#S3_URL="http://${S3_BUCKET}.s3.amazonaws.com"
+#   -------------------------------------------    Set up File and Directory Names      -------------------------------------------
+
+# get the value of our S3 bucket from an environment variable
+ENV_DIR=$3
+for KEY in S3_BUCKET; do
+  [ -f $ENV_DIR/$KEY ] && export "$KEY=$(cat $ENV_DIR/$KEY)"
+  [ -z "${!KEY}" ] && echo "$KEY must be set in the env" && exit 1
+done
+
+
+S3_URL="http://s3.amazonaws.com/${S3_BUCKET}"
 
 SUBDIR="mpod-wp"
 MANIFEST_FILE="manifest.md5sum"
@@ -41,8 +44,26 @@ MEMCACHED_URL="${S3_URL}/${SUBDIR}/${MEMCACHED_FILE}"
 PHP_URL="${S3_URL}/${SUBDIR}/${PHP_FILE}"
 NEWRELIC_URL="${S3_URL}/${SUBDIR}/${NEWRELIC_FILE}"
 COMPOSER_URL="http://getcomposer.org/composer.phar"
+
+
+# Heroku will pass in several arguments when it calls this buildpack. They are paths to temporary directories that will be used while putting everything together
+BIN_DIR=$(dirname $0)
+BUILD_DIR=$1
+CACHE_DIR=$2
+BUNDLE_DIR="${CACHE_DIR}/bundles"
+LP_DIR=`cd $(dirname $0); cd ..; pwd`
+export COMPOSER_HOME="${CACHE_DIR}/.composer"
+
+echo "BIN_DIR = $BIN_DIR"
+echo "BUILD_DIR = $BUILD_DIR"
+echo "CACHE_DIR = $CACHE_DIR"
+echo "LP_DIR = $LP_DIR"
+echo "COMPOSER_HOME = $COMPOSER_HOME"
 #
 
+
+
+#   ---------------------------------------------------    Herlper Functions      --------------------------------------------------
 function indent() {
     c='s/^/       /'
     case $(uname) in
@@ -66,21 +87,8 @@ function download_url() {
 
 }
 
-# Heroku will pass in several arguments when it calls this buildpack. They are paths to temporary directories that will be used while putting everything together
-BIN_DIR=$(dirname $0)
-BUILD_DIR=$1
-CACHE_DIR=$2
-BUNDLE_DIR="${CACHE_DIR}/bundles"
-LP_DIR=`cd $(dirname $0); cd ..; pwd`
-export COMPOSER_HOME="${CACHE_DIR}/.composer"
 
-echo "BIN_DIR = $BIN_DIR"
-echo "BUILD_DIR = $BUILD_DIR"
-echo "CACHE_DIR = $CACHE_DIR"
-echo "LP_DIR = $LP_DIR"
-echo "COMPOSER_HOME = $COMPOSER_HOME"
-
-
+#  ------------------------------------------------------------   Create and clear various directories  ------------------------------------------------------------
 # include .files when moving things around
 shopt -s dotglob
 
@@ -94,12 +102,18 @@ then
     find . -type f -atime +30 -delete | indent
 fi
 
+
+
+#  ------------------------------------------------------------   Manifest  ------------------------------------------------------------
 echo "-----> Fetching Manifest"
 echo ${MANIFEST_URL} | indent
 download_url ${MANIFEST_URL}
 
-# Apache
-echo "-----> Installing Apache"
+
+
+#  ------------------------------------------------------------   Apache  ------------------------------------------------------------
+echo " "
+echo "\n\n\n\n-----> Installing Apache"
 echo "pwd = $(pwd)"
 if [ -f "${APACHE_FILE}" ]
 then
@@ -125,7 +139,9 @@ tar xvf ${APACHE_FILE} -C ${BUILD_DIR}/vendor/apache
 echo "We just tar-ed Apache and changed to the new directory we just made"
 
 
-# libmcrypt
+
+#  ------------------------------------------------------------ libmcrypt  ------------------------------------------------------------
+echo " "
 echo "-----> Installing libmcrypt"
 if [ -f "${MCRYPT_FILE}" ]
 then
@@ -145,7 +161,10 @@ fi
 
 tar xzf ${MCRYPT_FILE} -C ${BUILD_DIR}/local
 
-# libmemcached
+
+
+#  ------------------------------------------------------------ libmemcached  ------------------------------------------------------------
+echo " "
 echo "-----> Installing libmemcached"
 if [ -f "${MEMCACHED_FILE}" ]
 then
@@ -165,7 +184,10 @@ fi
 
 tar xzf ${MEMCACHED_FILE} -C ${BUILD_DIR}/local
 
-# PHP
+
+
+#  ------------------------------------------------------------    PHP    ------------------------------------------------------------
+echo " "
 echo "-----> Installing PHP"
 if [ -f "$PHP_FILE" ]
 then
@@ -186,7 +208,10 @@ fi
 mkdir -p ${BUILD_DIR}/vendor/php
 tar xzf ${PHP_FILE} -C ${BUILD_DIR}/vendor/php
 
-# newrelic
+
+
+#  ------------------------------------------------------------ newrelic  ------------------------------------------------------------
+echo " "
 echo "-----> Installing newrelic"
 if [ -f "${NEWRELIC_FILE}" ]
 then
@@ -208,7 +233,11 @@ tar xzf ${NEWRELIC_FILE} -C ${BUILD_DIR}/local
 
 popd > /dev/null
 
-# Composer Installation
+
+
+#  ------------------------------------------------------------ Composer  ------------------------------------------------------------
+echo " "
+echo "-----> Installing Composer"
 pushd ${BUILD_DIR} > /dev/null
 if [ -f "composer.json" ]
 then
@@ -231,7 +260,11 @@ then
 fi
 popd > /dev/null
 
-# Config files
+
+
+
+#  ------------------------------------------------------------  Config files  ------------------------------------------------------------
+echo " "
 echo "-----> Copying config files"
 #cp $LP_DIR/conf/php-fpm.conf ${BUILD_DIR}/vendor/php/etc/php-fpm.conf
 #cp ${BUILD_DIR}/vendor/php/php/fpm/status.html ${BUILD_DIR}/status.html
@@ -239,6 +272,11 @@ cp $LP_DIR/conf/php.ini ${BUILD_DIR}/vendor/php/php.ini
 cp -a $LP_DIR/conf/etc.d ${BUILD_DIR}/vendor/php/
 cp $LP_DIR/conf/httpd.conf ${BUILD_DIR}/vendor/apache/conf/httpd.conf
 
+
+
+
+#  ------------------------------------------------------------  Boot script  ------------------------------------------------------------
+echo " "
 echo "-----> Installing boot script"
 cd $BUILD_DIR
 cat >>boot.sh <<EOF
@@ -297,5 +335,6 @@ fi
 /app/vendor/apache/sbin/apache
 EOF
 chmod +x boot.sh
+
 
 echo "-----> Done with compile"
