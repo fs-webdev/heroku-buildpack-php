@@ -64,6 +64,7 @@ function download_url() {
 
 }
 
+# Heroku will pass in several arguments when it calls this buildpack. They are paths to temporary directories that will be used while putting everything together
 BIN_DIR=$(dirname $0)
 BUILD_DIR=$1
 CACHE_DIR=$2
@@ -74,6 +75,7 @@ export COMPOSER_HOME="${CACHE_DIR}/.composer"
 echo "BIN_DIR = $BIN_DIR"
 echo "BUILD_DIR = $BUILD_DIR"
 echo "CACHE_DIR = $CACHE_DIR"
+echo "LP_DIR = $LP_DIR"
 echo "COMPOSER_HOME = $COMPOSER_HOME"
 
 
