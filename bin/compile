@@ -98,22 +98,21 @@ pushd ${BUNDLE_DIR} > /dev/null
 
 if [ -n "`find . -type f -atime +30`" ]
 then
-    echo "-----> Pruning Unused Cached Bundles"
+    echo -e "\n\n-----> Pruning Unused Cached Bundles"
     find . -type f -atime +30 -delete | indent
 fi
 
 
 
 #  ------------------------------------------------------------   Manifest  ------------------------------------------------------------
-echo "-----> Fetching Manifest"
+echo -e "\n\n-----> Fetching Manifest"
 echo ${MANIFEST_URL} | indent
 download_url ${MANIFEST_URL}
 
 
 
 #  ------------------------------------------------------------   Apache  ------------------------------------------------------------
-echo " "
-echo -e "\n\n\n\n\n\n\n\n\n-----> Installing Apache"
+echo -e "\n\n-----> Installing Apache"
 echo "pwd = $(pwd)"
 if [ -f "${APACHE_FILE}" ]
 then
@@ -141,8 +140,7 @@ echo "We just tar-ed Apache and changed to the new directory we just made"
 
 
 #  ------------------------------------------------------------ libmcrypt  ------------------------------------------------------------
-echo " "
-echo "-----> Installing libmcrypt"
+echo -e "\n\n-----> Installing libmcrypt"
 if [ -f "${MCRYPT_FILE}" ]
 then
 #    if check_md5 "${MCRYPT_FILE}"
@@ -164,8 +162,7 @@ tar xzf ${MCRYPT_FILE} -C ${BUILD_DIR}/local
 
 
 #  ------------------------------------------------------------ libmemcached  ------------------------------------------------------------
-echo " "
-echo "-----> Installing libmemcached"
+echo -e "\n\n-----> Installing libmemcached"
 if [ -f "${MEMCACHED_FILE}" ]
 then
 #    if check_md5 "${MEMCACHED_FILE}"
@@ -188,7 +185,7 @@ tar xzf ${MEMCACHED_FILE} -C ${BUILD_DIR}/local
 
 #  ------------------------------------------------------------    PHP    ------------------------------------------------------------
 echo " "
-echo "-----> Installing PHP"
+echo -e "\n\n-----> Installing PHP"
 if [ -f "$PHP_FILE" ]
 then
 #    if check_md5 "${PHP_FILE}"
@@ -211,8 +208,7 @@ tar xzf ${PHP_FILE} -C ${BUILD_DIR}/vendor/php
 
 
 #  ------------------------------------------------------------ newrelic  ------------------------------------------------------------
-echo " "
-echo "-----> Installing newrelic"
+echo -e "\n\n-----> Installing newrelic"
 if [ -f "${NEWRELIC_FILE}" ]
 then
 #    if check_md5 "${NEWRELIC_FILE}"
@@ -236,12 +232,11 @@ popd > /dev/null
 
 
 #  ------------------------------------------------------------ Composer  ------------------------------------------------------------
-echo " "
-echo "-----> Installing Composer"
+echo -e "\n\n-----> Installing Composer"
 pushd ${BUILD_DIR} > /dev/null
 if [ -f "composer.json" ]
 then
-    echo "-----> Installing dependencies using Composer"
+    echo -e "\n\n-----> Installing dependencies using Composer"
     GIT_DIR_ORIG=${GIT_DIR}
     unset GIT_DIR
 
@@ -265,7 +260,7 @@ popd > /dev/null
 
 #  ------------------------------------------------------------  Config files  ------------------------------------------------------------
 echo " "
-echo "-----> Copying config files"
+echo -e "\n\n-----> Copying config files"
 #cp $LP_DIR/conf/php-fpm.conf ${BUILD_DIR}/vendor/php/etc/php-fpm.conf
 #cp ${BUILD_DIR}/vendor/php/php/fpm/status.html ${BUILD_DIR}/status.html
 cp $LP_DIR/conf/php.ini ${BUILD_DIR}/vendor/php/php.ini
@@ -277,7 +272,7 @@ cp $LP_DIR/conf/httpd.conf ${BUILD_DIR}/vendor/apache/conf/httpd.conf
 
 #  ------------------------------------------------------------  Boot script  ------------------------------------------------------------
 echo " "
-echo "-----> Installing boot script"
+echo -e "\n\n-----> Installing boot script"
 cd $BUILD_DIR
 cat >>boot.sh <<EOF
 #!/usr/bin/env bash
@@ -337,4 +332,4 @@ EOF
 chmod +x boot.sh
 
 
-echo "-----> Done with compile"
+echo -e "\n\n-----> Done with compile"
