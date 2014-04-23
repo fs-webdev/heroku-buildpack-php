@@ -268,9 +268,11 @@ cp -a $LP_DIR/conf/etc.d ${BUILD_DIR}/vendor/php/
 
 CTEM = $(pwd)
 echo ${CTEM}
+echo " "
 
 cd ${BUILD_DIR}/vendor/apache/
-ls
+CTEM2 = 'ls'
+echo $CTEM2
 
 cp $LP_DIR/conf/httpd.conf ${BUILD_DIR}/vendor/apache/conf/httpd.conf
 
