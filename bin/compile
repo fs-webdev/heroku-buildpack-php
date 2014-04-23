@@ -233,8 +233,8 @@ popd > /dev/null
 
 # Config files
 echo "-----> Copying config files"
-cp $LP_DIR/conf/php-fpm.conf ${BUILD_DIR}/vendor/php/etc/php-fpm.conf
-cp ${BUILD_DIR}/vendor/php/php/fpm/status.html ${BUILD_DIR}/status.html
+#cp $LP_DIR/conf/php-fpm.conf ${BUILD_DIR}/vendor/php/etc/php-fpm.conf
+#cp ${BUILD_DIR}/vendor/php/php/fpm/status.html ${BUILD_DIR}/status.html
 cp $LP_DIR/conf/php.ini ${BUILD_DIR}/vendor/php/php.ini
 cp -a $LP_DIR/conf/etc.d ${BUILD_DIR}/vendor/php/
 cp $LP_DIR/conf/httpd.conf ${BUILD_DIR}/vendor/apache/conf/httpd.conf
@@ -253,9 +253,9 @@ if [ -d /app/conf ]; then
         cp -f /app/conf/etc.d/* /app/vendor/php/etc.d/
     fi
 
-    if [ -r /app/conf/php-fpm.conf ]; then
-        cp -f /app/conf/php-fpm.conf /app/vendor/php/etc/php-fpm.conf
-    fi
+#    if [ -r /app/conf/php-fpm.conf ]; then
+#        cp -f /app/conf/php-fpm.conf /app/vendor/php/etc/php-fpm.conf
+#    fi
 
     if [ -r /app/conf/php.ini ]; then
         cp -f /app/conf/php.ini /app/vendor/php/php.ini
@@ -273,27 +273,27 @@ if [ -x "/app/local/bin/newrelic-license" ]; then
     /app/local/bin/newrelic-license
 fi
 
-# Preserve current php-fpm.conf so that env list does
-# not go out of hand across restarts.
-if [ -r /app/vendor/php/etc/php-fpm.conf.current ]; then
-    cp -f /app/vendor/php/etc/php-fpm.conf.current /app/vendor/php/etc/php-fpm.conf
-else
-    cp -f /app/vendor/php/etc/php-fpm.conf /app/vendor/php/etc/php-fpm.conf.current
-fi
+## Preserve current php-fpm.conf so that env list does
+## not go out of hand across restarts.
+#if [ -r /app/vendor/php/etc/php-fpm.conf.current ]; then
+#    cp -f /app/vendor/php/etc/php-fpm.conf.current /app/vendor/php/etc/php-fpm.conf
+#else
+#    cp -f /app/vendor/php/etc/php-fpm.conf /app/vendor/php/etc/php-fpm.conf.current
+#fi
+#
+## Expose Heroku config vars to PHP-FPM processes
+#for var in \`env | cut -f1 -d=\`; do
+#    echo "env[\$var] = \\$\${var}" >> /app/vendor/php/etc/php-fpm.conf
+#done
 
-# Expose Heroku config vars to PHP-FPM processes
-for var in \`env | cut -f1 -d=\`; do
-    echo "env[\$var] = \\$\${var}" >> /app/vendor/php/etc/php-fpm.conf
-done
-
-touch /app/vendor/apache/logs/access.log /app/vendor/apache/logs/error.log /app/vendor/php/var/log/php-fpm.log /app/local/var/log/newrelic/newrelic-daemon.log /app/local/var/log/newrelic/php_agent.log
+touch /app/vendor/apache/logs/access.log /app/vendor/apache/logs/error.log /app/local/var/log/newrelic/newrelic-daemon.log /app/local/var/log/newrelic/php_agent.log
 mkdir -p client_body_temp fastcgi_temp proxy_temp scgi_temp uwsgi_temp
 (tail -f -n 0 /app/vendor/apache/logs/*.log /app/vendor/php/var/log/*.log /app/local/var/log/newrelic/*.log &)
 
 if [ "\${NEW_RELIC_LICENSE_KEY}" ]; then
     /app/local/bin/newrelic-daemon -c /app/local/etc/newrelic.cfg -d error
 fi
-/app/vendor/php/sbin/php-fpm
+#/app/vendor/php/sbin/php-fpm
 /app/vendor/apache/sbin/apache
 EOF
 chmod +x boot.sh
