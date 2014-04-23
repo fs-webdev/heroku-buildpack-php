@@ -132,9 +132,9 @@ else
     download_url ${APACHE_URL}
 fi
 
-mkdir -p ${BUILD_DIR}/vendor/apache
+mkdir -p ${BUILD_DIR}/vendor
 echo "We just made a new dir - ${BUILD_DIR}/vendor/apache"
-tar xvf ${APACHE_FILE} -C ${BUILD_DIR}/vendor/apache
+tar xvf ${APACHE_FILE} -C ${BUILD_DIR}/vendor
 echo "We just tar-ed Apache and changed to the new directory we just made"
 
 
