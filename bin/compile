@@ -96,6 +96,7 @@ download_url ${MANIFEST_URL}
 
 # Apache
 echo "-----> Installing Apache"
+echo "pwd = $(pwd)"
 if [ -f "${APACHE_FILE}" ]
 then
     # check manifest
