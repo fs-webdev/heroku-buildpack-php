@@ -26,10 +26,10 @@ NEWRELIC_VERSION=2.9.5.78
  S3_URL="http://s3.amazonaws.com/${S3_BUCKET}"
 #S3_URL="http://${S3_BUCKET}.s3.amazonaws.com"
 
-MANIFEST_FILE="manifest.md5sum"
-APACHE_FILE="httpd-${APACHE_VERSION}.tar.gz"
-MCRYPT_FILE="libmcrypt-${LIBMCRYPT_VERSION}.tar.gz"
-MEMCACHED_FILE="libmemcached-${LIBMEMCACHED_VERSION}.tar.gz"
+MANIFEST_FILE="mpod-wp/mpod-wp/manifest.md5sum"
+APACHE_FILE="mpod-wp/httpd-${APACHE_VERSION}.tar.gz"
+MCRYPT_FILE="mpod-wp/libmcrypt-${LIBMCRYPT_VERSION}.tar.gz"
+MEMCACHED_FILE="mpod-wp/libmemcached-${LIBMEMCACHED_VERSION}.tar.gz"
 PHP_FILE="mpod-wp/php-${PHP_VERSION}.tar.gz"
 NEWRELIC_FILE="mpod-wp/newrelic-${NEWRELIC_VERSION}-heroku.tar.gz"
 
