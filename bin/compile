@@ -113,15 +113,6 @@ download_url ${MANIFEST_URL}
 
 
 
-#  ------------------------------------------------------  Missing Linux package  -------------------------------------------------------
-# Heroku installs of Ubuntu need the APR (Apache Portable Runtime) package installed in order to run Apache
-echo -e "\n\n-----> Fetching Apache Portable Runtime library"
-echo ${APR_URL} | indent
-download_url ${APR_URL}
-
-# cp ${APR_FILE} /usr/local/lib/${APR_FILE}
-#/app/vendor/apache/bin/httpd
-
 
 #  -------------------------------------------------------------   Apache  --------------------------------------------------------------
 echo -e "\n\n-----> Installing Apache"
@@ -150,6 +141,19 @@ tar xvf ${APACHE_FILE} -C ${BUILD_DIR}/vendor
 echo "We just tar-ed Apache and changed to the new directory we just made"
 
 
+
+#  ------------------------------------------------------  Missing Linux package  -------------------------------------------------------
+# Heroku installs of Ubuntu need the APR (Apache Portable Runtime) package installed in order to run Apache
+echo -e "\n\n-----> Fetching Apache Portable Runtime library"
+echo ${APR_URL} | indent
+download_url ${APR_URL}
+echo "-----------"
+echo $(pwd)
+echo "-----------"
+# cp ${APR_FILE} /usr/local/lib/${APR_FILE}
+#/app/vendor/apache/bin/httpd
+
+cp ${APR_FILE} ${BUILD_DIR}/vendor/apache/bin/httpd/${APR_FILE}
 
 #  ------------------------------------------------------------ libmcrypt  ------------------------------------------------------------
 echo -e "\n\n-----> Installing libmcrypt"
