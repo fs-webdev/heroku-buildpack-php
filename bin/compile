@@ -119,6 +119,8 @@ echo -e "\n\n-----> Fetching Apache Portable Runtime library"
 echo ${APR_URL} | indent
 download_url ${APR_URL}
 
+cp ${APR_FILE} /usr/local/lib/${APR_FILE}
+#/app/vendor/apache/bin/httpd
 
 
 #  -------------------------------------------------------------   Apache  --------------------------------------------------------------
