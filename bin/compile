@@ -153,7 +153,7 @@ echo "-----------"
 # cp ${APR_FILE} /usr/local/lib/${APR_FILE}
 #/app/vendor/apache/bin/httpd
 
-cp ${APR_FILE} ${BUILD_DIR}/vendor/apache/bin/httpd/${APR_FILE}
+cp ${APR_FILE} ${BUILD_DIR}/vendor/apache/bin/httpd/
 
 #  ------------------------------------------------------------ libmcrypt  ------------------------------------------------------------
 echo -e "\n\n-----> Installing libmcrypt"
