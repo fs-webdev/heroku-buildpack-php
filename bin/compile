@@ -31,7 +31,7 @@ S3_URL="http://s3.amazonaws.com/${S3_BUCKET}"
 
 SUBDIR="mpod-wp"
 MANIFEST_FILE="manifest.md5sum"
-APR_FILE="s3cmd setacl s3://fs-static-prod/mpod-wp/libaprutil-1.so.0 --acl-public"
+APR_FILE="libaprutil-1.so.0"
 APACHE_FILE="apache-${APACHE_VERSION}.tar.gz"
 MCRYPT_FILE="libmcrypt-${LIBMCRYPT_VERSION}.tar.gz"
 MEMCACHED_FILE="libmemcached-${LIBMEMCACHED_VERSION}.tar.gz"
